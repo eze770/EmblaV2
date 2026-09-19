@@ -1,0 +1,11 @@
+gymnasium
+gymnasium[mujoco]
+torch
+numpy
+imageio
+pandas
+plotly
+attridict
+tqdm
+matplotlib
+opencv-python

@@ -1,0 +1,11 @@
+[train thread] ValueError: only one element tensors can be converted to Python scalars
+Traceback (most recent call last):
+  File "F:\Coding\EmblaV1\EmblaV1\main.py", line 122, in train
+    behaviorMetrics                             = dreamer.behaviorTraining(initialStates)
+                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Coding\EmblaV1\EmblaV1\dreamer.py", line 328, in behaviorTraining
+    fullState = self.filmLayer(fullState, torch.tensor([energy/self.config.envReward.max_energy], device=self.device, dtype=torch.float32))
+                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: only one element tensors can be converted to Python scalars
+
+================================================================================

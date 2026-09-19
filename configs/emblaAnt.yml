@@ -1,0 +1,127 @@
+environmentName: Ant-v5
+runName: SurvivalInstinctRun15
+seed: 1
+robotID: 1
+
+camMode: 1               # 0: one Cam, 1: first person for wm, 2: topdown for wm
+gradientSteps: 60000
+replayRatio: 100
+saveMetrics: True        # Saves metrics at replayRatio interval
+saveCheckpoints: True
+checkpointInterval: 2000
+resume: False
+checkpointToLoad: 6k
+
+episodesBeforeStart: 3
+numInteractionEpisodes: 1
+numEvaluationEpisodes: 1
+maxEnvSteps: 1000
+
+dreamer:
+    smToWmRatio: 1          # Scales the Sm Latents by the factor
+    smFreq: 4
+
+    batchSize: 32
+    batchLength: 64
+    imaginationHorizon: 15
+
+    recurrentSize: 512
+    latentLength: 16
+    latentClasses: 16
+    encodedObsSize: 1024
+
+    useContinuationPrediction: False
+    actorLR: 0.00004
+    criticLR: 0.0001
+    worldModelLR: 0.0002
+    selfModelLR: 0.0005 # 5e-4
+    gradientNormType: 2
+    gradientClip: 100
+
+    discount: 0.997
+    lambda_: 0.95
+    freeNats: 1
+    betaPrior: 1.0
+    betaPosterior: 0.1
+    entropyScale: 0.0003
+
+    buffer:
+        capacity: 29000 # original: 50000
+
+    encoder: 
+        depth: 16
+        stride: 2
+        kernelSize: 4
+        activation: Tanh
+
+    decoder: 
+        depth: 16
+        stride: 2
+        kernelSize: 5
+        activation: Tanh
+
+    recurrentModel: 
+        hiddenSize: 200
+        activation: Tanh
+
+    priorNet: 
+        hiddenSize: 200
+        numLayers: 2
+        activation: Tanh
+        uniformMix: 0.01
+
+    posteriorNet:
+        hiddenSize: 200
+        numLayers: 2
+        activation: Tanh
+        uniformMix: 0.01
+        
+    reward:
+        hiddenSize: 400
+        numLayers: 2
+        activation: Tanh
+
+    continuation:
+        hiddenSize: 400
+        numLayers: 3
+        activation: Tanh
+    
+    actor:
+        hiddenSize: 400
+        numLayers: 2
+        activation: Tanh
+
+    critic: 
+        hiddenSize: 400
+        numLayers: 3 
+        activation: Tanh
+
+    selfModel:
+        sim_real: 'sim'
+        arm_ee: 'ee'
+        positionalEncoder: True
+        saveImageDuringTraining: True
+        dof: 8
+        camDist: 4.0
+        nfSize: 0.4
+        d_filter: 128
+        nIters: 500000
+        chunkSize: 2 ** 14 # one chunk for current input
+        nSamples: 64
+        cameraFOV: 45.
+        lossGoal: 0.0001
+        tr: 0.75
+        patienceThreshold: 5
+        filterSize: 1
+
+    envReward:
+        max_energy: 1000
+
+folderNames:
+    metricsFolder: metrics
+    plotsFolder: plots
+    checkpointsFolder: checkpoints
+    videosFolder: videos
+    crashFolder: crashLogs
+    smLoss: smLoss
+

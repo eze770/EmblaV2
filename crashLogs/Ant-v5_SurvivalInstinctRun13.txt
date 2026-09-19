@@ -1,0 +1,11 @@
+[train thread] RuntimeError: The expanded size of the tensor (63) must match the existing size (32) at non-singleton dimension 0.  Target sizes: [63, 32].  Tensor sizes: [32, 32]
+Traceback (most recent call last):
+  File "F:\Coding\EmblaV1\EmblaV1\main.py", line 103, in train
+    smLatentStates, smLatestLoss, smMetrics = dreamer.selfModelTraining(sampledData)  # initialize SelfModel training, (eze)
+                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Coding\EmblaV1\EmblaV1\dreamer.py", line 240, in selfModelTraining
+    latents[t], outputs = self_model_forward(config=self.configFile,
+    ~~~~~~~^^^
+RuntimeError: The expanded size of the tensor (63) must match the existing size (32) at non-singleton dimension 0.  Target sizes: [63, 32].  Tensor sizes: [32, 32]
+
+================================================================================
