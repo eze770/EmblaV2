@@ -1,7 +1,3 @@
-# EmblaV1
-
-## Extending DreamerV3 for robotic application and better Morphology awareness by implementing a FFKSM
-
 # EmblaV2
 
 ## Using EmblaV1 with a biologically inspired intrinsic reward system
@@ -19,7 +15,6 @@ A detailed description of EmblaV1 is provided at additionalMaterials/DreamerFFKS
 
 ## Current state
 
-* EmblaV1 done -> Result: DreamerV3 is already very good with limited vision, sm is redundant for EmblaV1
 * EmblaV2 has self-sustainability as a first intrinsic reward
 * needs testing
 
