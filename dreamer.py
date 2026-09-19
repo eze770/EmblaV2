@@ -302,7 +302,6 @@ class Dreamer:
             except:
                 print("\nSelf-model store-exception!!\n")
 
-            loss_v_last = loss_valid
             # os.makedirs(LOG_PATH + "epoch_%d_model" % i, exist_ok=True)
             # torch.save(model.state_dict(), LOG_PATH + 'epoch_%d_model/nerf.pt' % i)
             # torch.cuda.empty_cache()    # to save memory
