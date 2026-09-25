@@ -324,7 +324,7 @@ class Dreamer:
         fullStates, logprobs, entropies, auxLosses = [], [], [], []
         energy = torch.randint(0, 1000, (self.config.batchLength - 1, self.config.batchSize))
         for _ in range(self.config.imaginationHorizon):
-            fullState = self.filmLayer(fullState, torch.tensor([energy/self.config.envReward.max_energy], device=self.device, dtype=torch.float32))
+            fullState = self.filmLayer(fullState, [energy/self.config.envReward.max_energy])
             action, logprob, entropy = self.actor(fullState.detach(), training=True)
             energy = energy - 1
             recurrentState = self.recurrentModel(recurrentState, latentState, action)

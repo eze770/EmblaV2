@@ -9,3 +9,23 @@ Traceback (most recent call last):
 ValueError: only one element tensors can be converted to Python scalars
 
 ================================================================================
+[train thread] RuntimeError: expand(torch.cuda.FloatTensor{[32, 8]}, size=[32]): the number of sizes provided (1) must be greater or equal to the number of dimensions in the tensor (2)
+Traceback (most recent call last):
+  File "F:\Coding\EmblaV2\main.py", line 117, in train
+    smLatentStates                      = self_model_forward(config=config, model=dreamer.selfModel.eval(), arm_angle=sampledData.angles, output_flag=4, observation_shape=observationShape)
+                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Coding\EmblaV2\func.py", line 454, in self_model_forward
+    query_points, z_vals = sample_stratified(
+                           ^^^^^^^^^^^^^^^^^^
+  File "F:\Coding\EmblaV2\func.py", line 268, in sample_stratified
+    pose_matrix = pts_trans_matrix(arm_angle[:, 0], arm_angle[:, 1]).to(device)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Coding\EmblaV2\func.py", line 110, in pts_trans_matrix
+    w2c = transition_matrix_torch("rot_z", -theta / 180. * torch.pi)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Coding\EmblaV2\func.py", line 545, in transition_matrix_torch
+    matrix[:, 0, 0] = torch.cos(value)
+    ~~~~~~^^^^^^^^^
+RuntimeError: expand(torch.cuda.FloatTensor{[32, 8]}, size=[32]): the number of sizes provided (1) must be greater or equal to the number of dimensions in the tensor (2)
+
+================================================================================
