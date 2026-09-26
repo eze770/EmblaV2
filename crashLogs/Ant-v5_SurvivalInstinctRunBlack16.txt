@@ -9,3 +9,198 @@ Traceback (most recent call last):
 ValueError: only one element tensors can be converted to Python scalars
 
 ================================================================================
+[train thread] TypeError: linear(): argument 'input' (position 1) must be Tensor, not list
+Traceback (most recent call last):
+  File "F:\Coding\EmblaV2\main.py", line 122, in train
+    behaviorMetrics                             = dreamer.behaviorTraining(initialStates)
+                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Coding\EmblaV2\dreamer.py", line 327, in behaviorTraining
+    fullState = self.filmLayer(fullState, [energy/self.config.envReward.max_energy])
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AnacondaNeu\envs\NDreamer\Lib\site-packages\torch\nn\modules\module.py", line 1739, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AnacondaNeu\envs\NDreamer\Lib\site-packages\torch\nn\modules\module.py", line 1750, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Coding\EmblaV2\networks.py", line 186, in forward
+    return self.gamma(energy) * fullstate + self.beta(energy)
+           ^^^^^^^^^^^^^^^^^^
+  File "D:\AnacondaNeu\envs\NDreamer\Lib\site-packages\torch\nn\modules\module.py", line 1739, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AnacondaNeu\envs\NDreamer\Lib\site-packages\torch\nn\modules\module.py", line 1750, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AnacondaNeu\envs\NDreamer\Lib\site-packages\torch\nn\modules\linear.py", line 125, in forward
+    return F.linear(input, self.weight, self.bias)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: linear(): argument 'input' (position 1) must be Tensor, not list
+
+================================================================================
+[train thread] RuntimeError: Expected all tensors to be on the same device, but found at least two devices, cuda:0 and cpu! (when checking argument for argument mat1 in method wrapper_CUDA_addmm)
+Traceback (most recent call last):
+  File "F:\Coding\EmblaV2\main.py", line 122, in train
+    behaviorMetrics                             = dreamer.behaviorTraining(initialStates)
+                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Coding\EmblaV2\dreamer.py", line 327, in behaviorTraining
+    action, logprob, entropy = self.actor(fullState.detach(), training=True)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AnacondaNeu\envs\NDreamer\Lib\site-packages\torch\nn\modules\module.py", line 1739, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AnacondaNeu\envs\NDreamer\Lib\site-packages\torch\nn\modules\module.py", line 1750, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Coding\EmblaV2\networks.py", line 186, in forward
+    return self.gamma(energy) * fullstate + self.beta(energy)
+           ^^^^^^^^^^^^^^^^^^
+  File "D:\AnacondaNeu\envs\NDreamer\Lib\site-packages\torch\nn\modules\module.py", line 1739, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AnacondaNeu\envs\NDreamer\Lib\site-packages\torch\nn\modules\module.py", line 1750, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AnacondaNeu\envs\NDreamer\Lib\site-packages\torch\nn\modules\linear.py", line 125, in forward
+    return F.linear(input, self.weight, self.bias)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: Expected all tensors to be on the same device, but found at least two devices, cuda:0 and cpu! (when checking argument for argument mat1 in method wrapper_CUDA_addmm)
+
+================================================================================
+[train thread] RuntimeError: mat1 and mat2 shapes cannot be multiplied (63x32 and 1x800)
+Traceback (most recent call last):
+  File "F:\Coding\EmblaV2\main.py", line 122, in train
+    behaviorMetrics                             = dreamer.behaviorTraining(initialStates)
+                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Coding\EmblaV2\dreamer.py", line 326, in behaviorTraining
+    fullState = self.filmLayer(fullState, energy/self.config.envReward.max_energy)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AnacondaNeu\envs\NDreamer\Lib\site-packages\torch\nn\modules\module.py", line 1739, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AnacondaNeu\envs\NDreamer\Lib\site-packages\torch\nn\modules\module.py", line 1750, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Coding\EmblaV2\networks.py", line 186, in forward
+    return self.gamma(energy) * fullstate + self.beta(energy)
+           ^^^^^^^^^^^^^^^^^^
+  File "D:\AnacondaNeu\envs\NDreamer\Lib\site-packages\torch\nn\modules\module.py", line 1739, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AnacondaNeu\envs\NDreamer\Lib\site-packages\torch\nn\modules\module.py", line 1750, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AnacondaNeu\envs\NDreamer\Lib\site-packages\torch\nn\modules\linear.py", line 125, in forward
+    return F.linear(input, self.weight, self.bias)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: mat1 and mat2 shapes cannot be multiplied (63x32 and 1x800)
+
+================================================================================
+[train thread] RuntimeError: mat1 and mat2 shapes cannot be multiplied (32x63 and 1x800)
+Traceback (most recent call last):
+  File "F:\Coding\EmblaV2\main.py", line 122, in train
+    behaviorMetrics                             = dreamer.behaviorTraining(initialStates)
+                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Coding\EmblaV2\dreamer.py", line 326, in behaviorTraining
+    fullState = self.filmLayer(fullState, energy/self.config.envReward.max_energy)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AnacondaNeu\envs\NDreamer\Lib\site-packages\torch\nn\modules\module.py", line 1739, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AnacondaNeu\envs\NDreamer\Lib\site-packages\torch\nn\modules\module.py", line 1750, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Coding\EmblaV2\networks.py", line 186, in forward
+    return self.gamma(energy) * fullstate + self.beta(energy)
+           ^^^^^^^^^^^^^^^^^^
+  File "D:\AnacondaNeu\envs\NDreamer\Lib\site-packages\torch\nn\modules\module.py", line 1739, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AnacondaNeu\envs\NDreamer\Lib\site-packages\torch\nn\modules\module.py", line 1750, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AnacondaNeu\envs\NDreamer\Lib\site-packages\torch\nn\modules\linear.py", line 125, in forward
+    return F.linear(input, self.weight, self.bias)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: mat1 and mat2 shapes cannot be multiplied (32x63 and 1x800)
+
+================================================================================
+[train thread] RuntimeError: mat1 and mat2 shapes cannot be multiplied (32x63 and 1x800)
+Traceback (most recent call last):
+  File "F:\Coding\EmblaV2\main.py", line 122, in train
+    behaviorMetrics                             = dreamer.behaviorTraining(initialStates)
+                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Coding\EmblaV2\dreamer.py", line 327, in behaviorTraining
+    fullState = self.filmLayer(fullState, energy/self.config.envReward.max_energy)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AnacondaNeu\envs\NDreamer\Lib\site-packages\torch\nn\modules\module.py", line 1739, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AnacondaNeu\envs\NDreamer\Lib\site-packages\torch\nn\modules\module.py", line 1750, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Coding\EmblaV2\networks.py", line 186, in forward
+    return self.gamma(energy) * fullstate + self.beta(energy)
+           ^^^^^^^^^^^^^^^^^^
+  File "D:\AnacondaNeu\envs\NDreamer\Lib\site-packages\torch\nn\modules\module.py", line 1739, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AnacondaNeu\envs\NDreamer\Lib\site-packages\torch\nn\modules\module.py", line 1750, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AnacondaNeu\envs\NDreamer\Lib\site-packages\torch\nn\modules\linear.py", line 125, in forward
+    return F.linear(input, self.weight, self.bias)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: mat1 and mat2 shapes cannot be multiplied (32x63 and 1x800)
+
+================================================================================
+[train thread] RuntimeError: mat1 and mat2 shapes cannot be multiplied (32x63 and 1x800)
+Traceback (most recent call last):
+  File "F:\Coding\EmblaV2\main.py", line 122, in train
+    behaviorMetrics                             = dreamer.behaviorTraining(initialStates)
+                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Coding\EmblaV2\dreamer.py", line 326, in behaviorTraining
+    fullState = self.filmLayer(fullState, energy/self.config.envReward.max_energy)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AnacondaNeu\envs\NDreamer\Lib\site-packages\torch\nn\modules\module.py", line 1739, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AnacondaNeu\envs\NDreamer\Lib\site-packages\torch\nn\modules\module.py", line 1750, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Coding\EmblaV2\networks.py", line 187, in forward
+    return self.gamma(energy) * fullstate + self.beta(energy)
+           ^^^^^^^^^^^^^^^^^^
+  File "D:\AnacondaNeu\envs\NDreamer\Lib\site-packages\torch\nn\modules\module.py", line 1739, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AnacondaNeu\envs\NDreamer\Lib\site-packages\torch\nn\modules\module.py", line 1750, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AnacondaNeu\envs\NDreamer\Lib\site-packages\torch\nn\modules\linear.py", line 125, in forward
+    return F.linear(input, self.weight, self.bias)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: mat1 and mat2 shapes cannot be multiplied (32x63 and 1x800)
+
+================================================================================
+[train thread] TypeError: randint() received an invalid combination of arguments - got (int, int, int, device=torch.device), but expected one of:
+ * (int high, tuple of ints size, *, torch.Generator generator, Tensor out = None, torch.dtype dtype = None, torch.layout layout = None, torch.device device = None, bool pin_memory = False, bool requires_grad = False)
+ * (int high, tuple of ints size, *, Tensor out = None, torch.dtype dtype = None, torch.layout layout = None, torch.device device = None, bool pin_memory = False, bool requires_grad = False)
+ * (int low, int high, tuple of ints size, *, torch.Generator generator, Tensor out = None, torch.dtype dtype = None, torch.layout layout = None, torch.device device = None, bool pin_memory = False, bool requires_grad = False)
+ * (int low, int high, tuple of ints size, *, Tensor out = None, torch.dtype dtype = None, torch.layout layout = None, torch.device device = None, bool pin_memory = False, bool requires_grad = False)
+
+Traceback (most recent call last):
+  File "F:\Coding\EmblaV2\main.py", line 122, in train
+    behaviorMetrics                             = dreamer.behaviorTraining(initialStates)
+                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Coding\EmblaV2\dreamer.py", line 324, in behaviorTraining
+    energy = torch.randint(0, 1000, (self.config.batchSize * (self.config.batchLength - 1)), device=device)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: randint() received an invalid combination of arguments - got (int, int, int, device=torch.device), but expected one of:
+ * (int high, tuple of ints size, *, torch.Generator generator, Tensor out = None, torch.dtype dtype = None, torch.layout layout = None, torch.device device = None, bool pin_memory = False, bool requires_grad = False)
+ * (int high, tuple of ints size, *, Tensor out = None, torch.dtype dtype = None, torch.layout layout = None, torch.device device = None, bool pin_memory = False, bool requires_grad = False)
+ * (int low, int high, tuple of ints size, *, torch.Generator generator, Tensor out = None, torch.dtype dtype = None, torch.layout layout = None, torch.device device = None, bool pin_memory = False, bool requires_grad = False)
+ * (int low, int high, tuple of ints size, *, Tensor out = None, torch.dtype dtype = None, torch.layout layout = None, torch.device device = None, bool pin_memory = False, bool requires_grad = False)
+
+
+================================================================================

@@ -265,8 +265,7 @@ class Dreamer:
 
                     with autocast("cuda"):
                        v_loss = torch.nn.functional.mse_loss(rgb_predicted, target_img)
-                    np_image = rgb_predicted.reshape(
-                        [-1, int(height * 0.25), int(width * 0.25), 1]).detach().cpu().numpy()
+                    np_image = rgb_predicted.reshape([-1, int(height * 0.25), int(width * 0.25), 1]).detach().cpu().numpy()
                     valid_image.append(np_image[:6])
 
             loss_valid = np.mean(v_loss.item())
@@ -322,9 +321,9 @@ class Dreamer:
     def behaviorTraining(self, fullState):
         recurrentState, latentState, smLatentState = torch.split(fullState, (self.recurrentSize, self.latentSize, self.smLatentSize), -1)
         fullStates, logprobs, entropies, auxLosses = [], [], [], []
-        energy = torch.randint(0, 1000, (self.config.batchLength - 1, self.config.batchSize))
+        energy = torch.randint(0, 1000, (self.config.batchSize * (self.config.batchLength - 1), 1), device=device)
         for _ in range(self.config.imaginationHorizon):
-            fullState = self.filmLayer(fullState, [energy/self.config.envReward.max_energy])
+            fullState = self.filmLayer(fullState, energy/self.config.envReward.max_energy)
             action, logprob, entropy = self.actor(fullState.detach(), training=True)
             energy = energy - 1
             recurrentState = self.recurrentModel(recurrentState, latentState, action)
