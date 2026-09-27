@@ -20,6 +20,7 @@ maxEnvSteps: 400
 dreamer:
     smToWmRatio: 1          # Scales the Sm Latents by the factor
     smFreq: 4
+    smTrainGoal: 1.0
 
     batchSize: 32
     batchLength: 64

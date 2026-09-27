@@ -109,12 +109,13 @@ def train(config, dreamer, runName, observationShape, crashFilenameBase):
                 warmup = True if dreamer.totalGradientSteps < 500 else False
                 sampledData                          = dreamer.buffer.sample(dreamer.config.batchSize, dreamer.config.batchLength, damageDetected)
                 if i % config.dreamer.smFreq == 0:
-                    if (config.dreamer.selfModel.nIters // ((config.dreamer.batchLength - 1) * config.dreamer.batchSize)) - (dreamer.totalGradientSteps - damageDetected) >= 0 or smLatestLoss > 1.0:
+                    if (config.dreamer.selfModel.nIters // ((config.dreamer.batchLength - 1) * config.dreamer.batchSize)) - (dreamer.totalGradientSteps - damageDetected) >= 0 or smLatestLoss > config.dreamer.smTrainGoal:
                         smLatentStates, smLatestLoss, smMetrics = dreamer.selfModelTraining(sampledData)  # initialize SelfModel training, (eze)
                     else:
                         damageDetected = 0  # reset so that buffer uses all data for wm again, (eze)
                         with torch.no_grad():
-                            smLatentStates                      = self_model_forward(config=config, model=dreamer.selfModel.eval(), arm_angle=sampledData.angles, output_flag=4, observation_shape=observationShape)
+                            smLatentStates, _                   = self_model_forward(config=config, model=dreamer.selfModel.eval(), arm_angle=sampledData.angles, output_flag=0, observation_shape=observationShape)
+                            smLatentStates = smLatentStates.view(config.dreamer.batchSize, config.dreamer.batchLength, -1)[:, :config.dreamer.batchLength-1]  # necessary reshape because fullstates expect batched Dimensions, (eze)
                     two = time.time()
                     initialStates, worldModelMetrics            = dreamer.worldModelTraining(sampledData, smLatentStates * config.dreamer.smToWmRatio)  # initial states also contains SM Latents (used for continuationpredictor), (eze)
                     three = time.time()

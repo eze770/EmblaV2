@@ -443,14 +443,11 @@ def self_model_forward(
     n_samples = config.selfModel.nSamples
     chunksize = eval(config.selfModel.chunkSize)  # Modify as needed to fit in GPU memory
 
-    return_outputs = True
-    if output_flag == 4:  # 4 is mode 0 with latent output, (eze)
-        output_flag = 0
-        return_outputs = False
-
     # Sample query points along each ray.
     # query_points: [B, N_rays, N_samples, 3]
     # z_vals:       [B, N_rays, N_samples]
+    if arm_angle.dim() > 2:
+        arm_angle = arm_angle.reshape((-1, arm_angle.shape[-1]))
     query_points, z_vals = sample_stratified(
         rays_o, rays_d, arm_angle, near, far, n_samples=n_samples)
     # Prepare batches.
@@ -475,12 +472,7 @@ def self_model_forward(
     with autocast("cuda"):
         c = 0
         for batch in batches:
-            if return_outputs:
-                prediction, latent_state = model(batch)
-                predictions[c] = prediction
-            else:
-                latent_state = model(batch)
-            latent_states[c] = latent_state
+            predictions[c], latent_states[c] = model(batch)
             del batch
             c += 1
 
@@ -506,10 +498,7 @@ def self_model_forward(
 
     # Store outputs.
     latent_state = latent_states.view(B, -1, latent_states.shape[-1]).mean(dim=1)
-    if return_outputs:
-        return latent_state, outputs
-    else:
-        return latent_state
+    return latent_state, outputs
 
 
 # ---------------------------------------------------------

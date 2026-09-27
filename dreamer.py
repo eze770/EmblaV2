@@ -78,7 +78,7 @@ class Dreamer:
         encodedObservations = self.encoder(data.observations.view(-1, *self.observationShape)).view(self.config.batchSize, self.config.batchLength, -1)
         previousRecurrentState  = torch.zeros(self.config.batchSize, self.recurrentSize,    device=self.device)
         previousLatentState     = torch.zeros(self.config.batchSize, self.latentSize,       device=self.device)
-        previousSmLatentState   = torch.zeros(self.config.batchSize, self.smLatentSize,       device=self.device) # not used in this version, was used for recurrent state (eze)
+        # previousSmLatentState   = torch.zeros(self.config.batchSize, self.smLatentSize,       device=self.device) # not used in this version, can be used for recurrent state (eze)
 
         recurrentStates, priorsLogits, posteriors, posteriorsLogits = [], [], [], []
         for t in range(1, self.config.batchLength):
@@ -93,7 +93,7 @@ class Dreamer:
 
             previousRecurrentState = recurrentState
             previousLatentState    = posterior
-            previousSmLatentState  = smLatentStates[:, t-1, :]
+            # previousSmLatentState  = smLatentStates[:, t-1, :]
 
         recurrentStates             = torch.stack(recurrentStates,              dim=1) # (batchSize, batchLength-1, recurrentSize)
         priorsLogits                = torch.stack(priorsLogits,                 dim=1) # (batchSize, batchLength-1, latentLength, latentClasses)
@@ -450,7 +450,7 @@ class Dreamer:
                     reward -= abs((1 - up_z) * 2)
                     up_z_pen = up_z
 
-                if stepCount % 10 == 0:
+                if stepCount % 100 == 0:
                     print("Overall: ", reward, "   Energy: ", energy, "   MovementDist: ", movePenalty, "   Vision: ", up_z_pen)
                 angles = torch.as_tensor(smEnv.unwrapped.data.qpos.copy()[:self.config.selfModel.dof], device=self.device, dtype=torch.float32)  # qpos from documentation, (eze)
                 if not evaluation:

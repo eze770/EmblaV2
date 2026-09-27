@@ -204,3 +204,58 @@ TypeError: randint() received an invalid combination of arguments - got (int, in
 
 
 ================================================================================
+[train thread] RuntimeError: expand(torch.cuda.FloatTensor{[32, 8]}, size=[32]): the number of sizes provided (1) must be greater or equal to the number of dimensions in the tensor (2)
+Traceback (most recent call last):
+  File "F:\Coding\EmblaV2\main.py", line 117, in train
+    smLatentStates, _                   = self_model_forward(config=config, model=dreamer.selfModel.eval(), arm_angle=sampledData.angles, output_flag=0, observation_shape=observationShape)
+                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Coding\EmblaV2\func.py", line 449, in self_model_forward
+    query_points, z_vals = sample_stratified(
+                           ^^^^^^^^^^^^^^^^^^
+  File "F:\Coding\EmblaV2\func.py", line 268, in sample_stratified
+    pose_matrix = pts_trans_matrix(arm_angle[:, 0], arm_angle[:, 1]).to(device)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Coding\EmblaV2\func.py", line 110, in pts_trans_matrix
+    w2c = transition_matrix_torch("rot_z", -theta / 180. * torch.pi)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Coding\EmblaV2\func.py", line 532, in transition_matrix_torch
+    matrix[:, 0, 0] = torch.cos(value)
+    ~~~~~~^^^^^^^^^
+RuntimeError: expand(torch.cuda.FloatTensor{[32, 8]}, size=[32]): the number of sizes provided (1) must be greater or equal to the number of dimensions in the tensor (2)
+
+================================================================================
+[train thread] IndexError: too many indices for tensor of dimension 2
+Traceback (most recent call last):
+  File "F:\Coding\EmblaV2\main.py", line 119, in train
+    initialStates, worldModelMetrics            = dreamer.worldModelTraining(sampledData, smLatentStates * config.dreamer.smToWmRatio)  # initial states also contains SM Latents (used for continuationpredictor), (eze)
+                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Coding\EmblaV2\dreamer.py", line 96, in worldModelTraining
+    previousSmLatentState  = smLatentStates[:, t-1, :]
+                             ~~~~~~~~~~~~~~^^^^^^^^^^^
+IndexError: too many indices for tensor of dimension 2
+
+================================================================================
+[train thread] RuntimeError: Tensors must have same number of dimensions: got 3 and 2
+Traceback (most recent call last):
+  File "F:\Coding\EmblaV2\main.py", line 119, in train
+    initialStates, worldModelMetrics            = dreamer.worldModelTraining(sampledData, smLatentStates * config.dreamer.smToWmRatio)  # initial states also contains SM Latents (used for continuationpredictor), (eze)
+                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Coding\EmblaV2\dreamer.py", line 108, in worldModelTraining
+    fullStates = torch.cat((fullStates, smLatentStates), dim=-1)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: Tensors must have same number of dimensions: got 3 and 2
+
+================================================================================
+[train thread] AttributeError: key does not exist, 'batchSize'
+Traceback (most recent call last):
+  File "F:\Coding\EmblaV2\main.py", line 118, in train
+    smLatentStates = smLatentStates.view(config.batchSize, config.batchLength, -1)[:, :config.batchLength-1]  # necessary reshape because fullstates expect batched Dimensions, (eze)
+                                         ^^^^^^^^^^^^^^^^
+  File "D:\AnacondaNeu\envs\NDreamer\Lib\site-packages\mixins.py", line 8, in wrapper
+    new_object = func(container, key)
+                 ^^^^^^^^^^^^^^^^^^^^
+  File "D:\AnacondaNeu\envs\NDreamer\Lib\site-packages\mixins.py", line 48, in __getattr__
+    raise AttributeError(
+AttributeError: key does not exist, 'batchSize'
+
+================================================================================
