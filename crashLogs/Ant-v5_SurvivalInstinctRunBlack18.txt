@@ -1,0 +1,24 @@
+[train thread] UnboundLocalError: cannot access local variable 'smMetrics' where it is not associated with a value
+Traceback (most recent call last):
+  File "F:\Coding\EmblaV2\main.py", line 145, in train
+    saveLossesToCSV(metricsFilename, metricsBase | worldModelMetrics | behaviorMetrics | smMetrics)
+                                                                                         ^^^^^^^^^
+UnboundLocalError: cannot access local variable 'smMetrics' where it is not associated with a value
+
+================================================================================
+[train thread] UnboundLocalError: cannot access local variable 'smMetrics' where it is not associated with a value
+Traceback (most recent call last):
+  File "F:\Coding\EmblaV2\main.py", line 145, in train
+    saveLossesToCSV(metricsFilename, metricsBase | worldModelMetrics | behaviorMetrics | smMetrics)
+                                                                                         ^^^^^^^^^
+UnboundLocalError: cannot access local variable 'smMetrics' where it is not associated with a value
+
+================================================================================
+[train thread] UnboundLocalError: cannot access local variable 'smMetrics' where it is not associated with a value
+Traceback (most recent call last):
+  File "F:\Coding\EmblaV2\main.py", line 145, in train
+    saveLossesToCSV(metricsFilename, metricsBase | worldModelMetrics | behaviorMetrics | smMetrics)
+                                                                                         ^^^^^^^^^
+UnboundLocalError: cannot access local variable 'smMetrics' where it is not associated with a value
+
+================================================================================

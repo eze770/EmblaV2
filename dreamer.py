@@ -10,6 +10,7 @@ import matplotlib
 import matplotlib.image
 import random
 import time
+import tkinter
 
 from networks import RecurrentModel, PriorNet, PosteriorNet, RewardModel, ContinueModel, EncoderConv, DecoderConv, Actor, Critic, FBV_SM, FiLMLayer, PositionalEncoder, SmAuxiliaryDecoder
 from utils import computeLambdaValues, Moments
@@ -423,14 +424,13 @@ class Dreamer:
                     envtype = smEnv
 
                 if envs.in_energy_zone(envtype):
-                    energy += 50
+                    if energy < maxEnergy:
+                        energy += 50
                 else:
                     energy -= 1
                 #if envs.check_collision_with_obstacles(envtype):  # already present in the standard ant reward function (eze)
                 #    reward -= 1
-                if energy == 0:
-                    done = True
-                reward -= abs((800 - energy) * 0.005)  # small penalty for too much or too little energy (eze)
+                reward -= abs((maxEnergy * 0.8 - energy) * 0.005)  # small penalty for too much or too little energy (eze)
 
                 l = 0
                 movePenalty = 0
@@ -447,8 +447,11 @@ class Dreamer:
                 up_z = 1 - 2 * (x ** 2 + y ** 2)
                 up_z_pen = 0
                 if up_z < 0.5:
-                    reward -= abs((1 - up_z) * 2)
+                    reward -= abs((1 - up_z) * 10)
                     up_z_pen = up_z
+
+                if energy == 0 or up_z <= 0.2:
+                    done = True
 
                 if stepCount % 100 == 0:
                     print("Overall: ", reward, "   Energy: ", energy, "   MovementDist: ", movePenalty, "   Vision: ", up_z_pen)
@@ -506,7 +509,7 @@ class Dreamer:
             'rewardPredictor'       : self.rewardPredictor.state_dict(),
             'actor'                 : self.actor.state_dict(),
             'critic'                : self.critic.state_dict(),
-            'sefModel'              : self.selfModel.state_dict(),
+            'selfModel'              : self.selfModel.state_dict(),
             'worldModelOptimizer'   : self.worldModelOptimizer.state_dict(),
             'criticOptimizer'       : self.criticOptimizer.state_dict(),
             'actorOptimizer'        : self.actorOptimizer.state_dict(),

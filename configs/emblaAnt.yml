@@ -1,5 +1,5 @@
 environmentName: Ant-v5
-runName: SurvivalInstinctRunBlack16
+runName: SurvivalInstinctRunBlack18
 seed: 1
 robotID: 1
 
@@ -9,8 +9,8 @@ replayRatio: 100
 saveMetrics: True        # Saves metrics at replayRatio interval
 saveCheckpoints: True
 checkpointInterval: 2000
-resume: False
-checkpointToLoad: 6k
+resume: True
+checkpointToLoad: 18k
 
 episodesBeforeStart: 3
 numInteractionEpisodes: 1
