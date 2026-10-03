@@ -8,12 +8,12 @@ import matplotlib.image
 import matplotlib.pyplot as plt
 from torchvision.transforms import Resize
 import threading
+from utils import saveLossesToCSV, plotMetrics
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 env = AddRenderObservation(gym.make("Ant-v5", render_mode="rgb_array", max_episode_steps=1000, camera_name="third_person"), render_only=True)
 env.reset()
 env2 = AddRenderObservation(gym.make("Pusher-v5", render_mode="rgb_array", max_episode_steps=200, camera_name="topdown_cam"), render_only=True)
-env.reset()
 #env.render()
 
 
@@ -51,6 +51,9 @@ while not terminated and not truncated:
     idx = idx + 1
     #plt.imshow(obs)
     #plt.show()
+    _, x, y, _ = env.unwrapped.data.qpos[3:7]  # (w, x, y, z) (eze)
+    up_z = 1 - 2 * (x ** 2 + y ** 2)
+    print(up_z)
 
     timestep = env.unwrapped.model.opt.timestep
     frame_skip = env.unwrapped.frame_skip
@@ -60,13 +63,16 @@ while not terminated and not truncated:
     frame = env.render()
     frame_bgr = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
     cv2.imshow("SM View", frame_bgr)
-    cv2.waitKey(1)
+    cv2.waitKey(5)
+    metrics_base = {"gradientSteps": idx}
+    saveLossesToCSV("testasdf", metrics_base | {"up_z": up_z})
+    plotMetrics("testasdf.csv")
 
 #print("qpos: ", qpos, "qvel: ", qvel, "dt: ", dt, "reward: ", reward)
 
 maskedObs = torch.zeros(1000, observationShape[0], observationShape[1])
 unfilteredObs = torch.zeros(1000, observationShape[0], observationShape[1])
-print(observations)
+#print(observations)
 for t in range(len(observations)):
     hsvImg = cv2.cvtColor(observations[t], cv2.COLOR_RGB2HSV)
     #lower = np.array([140, 100, 30])
@@ -92,7 +98,7 @@ for t in range(len(observations)):
 #observations = torch.as_tensor(observations[1], device=device).float()
 #training_imges_snapshot = observations.view(-1, *observationShape)
 #print(training_imges_snapshot)
-print(maskedObs[1].shape)
+#print(maskedObs[1].shape)
 matplotlib.image.imsave("test_afterContours.png", maskedObs[1])
 #print(unfilteredObs[1, 240])
 #print(maskedObs[1, 240])

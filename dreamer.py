@@ -13,7 +13,7 @@ import time
 import tkinter
 
 from networks import RecurrentModel, PriorNet, PosteriorNet, RewardModel, ContinueModel, EncoderConv, DecoderConv, Actor, Critic, FBV_SM, FiLMLayer, PositionalEncoder, SmAuxiliaryDecoder
-from utils import computeLambdaValues, Moments
+from utils import computeLambdaValues, Moments, saveLossesToCSV, plotMetrics
 from buffer import ReplayBuffer
 import envs
 from func import *
@@ -430,31 +430,35 @@ class Dreamer:
                     energy -= 1
                 #if envs.check_collision_with_obstacles(envtype):  # already present in the standard ant reward function (eze)
                 #    reward -= 1
-                reward -= abs((maxEnergy * 0.8 - energy) * 0.005)  # small penalty for too much or too little energy (eze)
+                reward -= abs((maxEnergy * 0.8 - energy) * 1/800)  # small penalty for too much or too little energy (eze)
 
                 l = 0
-                movePenalty = 0
+                num_move_pens = 0
+                move_penalty = 0
                 for j in actionNumpy:  # Penalty for using one part too often (eze)
                     overalMovement += abs(j)
                     overalMovements[l] += abs(j)
                     if overalMovements[l] >= overalMovement * 0.2:
-                        reward -= abs(j)
-                        movePenalty = abs(j)
+                        if abs(j) > 0.5:
+                            move_penalty += abs(j)
+                            num_move_pens += 1
                     l += 1
+                move_penalty = move_penalty / num_move_pens if num_move_pens > 0 else 0
+                reward -= move_penalty
 
-                # Penalty for bad Vision/ too much angle of central body-part (eze)
+                # Penalty for bad Vision/ too much angle of central body-part/ upside down (eze)
                 _, x, y, _ = envtype.unwrapped.data.qpos[3:7]  # (w, x, y, z) (eze)
                 up_z = 1 - 2 * (x ** 2 + y ** 2)
                 up_z_pen = 0
-                if up_z < 0.5:
-                    reward -= abs((1 - up_z) * 10)
-                    up_z_pen = up_z
+                if 0.5 >= up_z:
+                    up_z_pen = 1
+                    reward -= up_z_pen
 
-                if energy == 0 or up_z <= 0.2:
+                if energy == 0:
                     done = True
 
                 if stepCount % 100 == 0:
-                    print("Overall: ", reward, "   Energy: ", energy, "   MovementDist: ", movePenalty, "   Vision: ", up_z_pen)
+                    print("Overall: ", reward, "   Energy: ", energy, "   MovementDist: ", move_penalty, "   Vision: ", up_z_pen)
                 angles = torch.as_tensor(smEnv.unwrapped.data.qpos.copy()[:self.config.selfModel.dof], device=self.device, dtype=torch.float32)  # qpos from documentation, (eze)
                 if not evaluation:
                     self.buffer.add(wmObservation, smObservation, actionNumpy, reward, nextWmObservation, nextObservation, done, angles)
@@ -481,6 +485,15 @@ class Dreamer:
                 
                 currentScore += reward
                 stepCount += 1
+                """
+                metricsBase = {"gradientSteps": self.totalEnvSteps + stepCount}
+                rewardMetrics = {"total": reward,
+                                 "energy": energy,
+                                 "movementsDist": movePenalty,
+                                 "up_z": up_z_pen}
+                saveLossesToCSV("rewardMetrics", metricsBase | rewardMetrics)
+                plotMetrics("rewardMetrics")
+                """
                 if done:
                     scores.append(currentScore)
                     if not evaluation:

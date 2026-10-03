@@ -18,7 +18,7 @@ def in_energy_zone(env):
     ant_pos = env.data.qpos[:2]
     zone_pos = env.model.site("energy_zone_1").pos[:2]
     distance = np.linalg.norm(ant_pos - zone_pos)
-    return distance < 0.5  # Radius der Zone
+    return distance < 1.5
 
 
 def check_collision_with_obstacles(env):

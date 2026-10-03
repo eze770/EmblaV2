@@ -103,6 +103,8 @@ def train(config, dreamer, runName, observationShape, crashFilenameBase):
         damageDetected = 0
         smLatestLoss = 2.0
         iterationsNum = config.gradientSteps // config.replayRatio
+        if config.resume:
+            smLatestLoss = config.dreamer.smTrainGoal + 0.1  # So that we can collect new smMetrics, (eze)
         for _ in tqdm(range(iterationsNum), desc="OverallProgress", colour="green"):
             for i in tqdm(range(config.replayRatio), desc="Dream", colour="blue"):
                 one = time.time()

@@ -1,5 +1,5 @@
 environmentName: Ant-v5
-runName: SurvivalInstinctRunBlack18
+runName: SurvivalInstinctRunBlack21
 seed: 1
 robotID: 1
 
@@ -10,9 +10,9 @@ saveMetrics: True        # Saves metrics at replayRatio interval
 saveCheckpoints: True
 checkpointInterval: 2000
 resume: True
-checkpointToLoad: 18k
+checkpointToLoad: 10k
 
-episodesBeforeStart: 3
+episodesBeforeStart: 5
 numInteractionEpisodes: 1
 numEvaluationEpisodes: 1
 maxEnvSteps: 1000
@@ -20,7 +20,7 @@ maxEnvSteps: 1000
 dreamer:
     smToWmRatio: 1          # Scales the Sm Latents by the factor
     smFreq: 4
-    smTrainGoal: 2.0        # sm trains untill loss is lower that this value
+    smTrainGoal: 2.0        # sm trains until loss is lower that this value
 
     batchSize: 32
     batchLength: 64

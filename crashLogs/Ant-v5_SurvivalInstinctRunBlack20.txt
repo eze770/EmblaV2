@@ -1,0 +1,32 @@
+[train thread] AssertionError: not enough data in the buffer to sample
+Traceback (most recent call last):
+  File "F:\Coding\EmblaV2\main.py", line 110, in train
+    sampledData                          = dreamer.buffer.sample(dreamer.config.batchSize, dreamer.config.batchLength, damageDetected)
+                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Coding\EmblaV2\buffer.py", line 44, in sample
+    assert self.full or (lastFilledIndex > batchSize), "not enough data in the buffer to sample"
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: not enough data in the buffer to sample
+
+================================================================================
+[train thread] UnboundLocalError: cannot access local variable 'smMetrics' where it is not associated with a value
+Traceback (most recent call last):
+  File "F:\Coding\EmblaV2\main.py", line 145, in train
+    saveLossesToCSV(metricsFilename, metricsBase | worldModelMetrics | behaviorMetrics | smMetrics)
+                                                                                         ^^^^^^^^^
+UnboundLocalError: cannot access local variable 'smMetrics' where it is not associated with a value
+
+================================================================================
+[train thread] ValueError: low >= high
+Traceback (most recent call last):
+  File "F:\Coding\EmblaV2\main.py", line 112, in train
+    sampledData                          = dreamer.buffer.sample(dreamer.config.batchSize, dreamer.config.batchLength, damageDetected)
+                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Coding\EmblaV2\buffer.py", line 45, in sample
+    sampleIndex = np.random.randint(anomalyDetected, self.capacity if self.full else lastFilledIndex, batchSize).reshape(-1, 1)  # only uses postanomaly-data if damage is detected. Is 0 again after sm training, (eze)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "numpy/random/mtrand.pyx", line 799, in numpy.random.mtrand.RandomState.randint
+  File "numpy/random/_bounded_integers.pyx", line 2885, in numpy.random._bounded_integers._rand_int32
+ValueError: low >= high
+
+================================================================================
